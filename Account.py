@@ -45,18 +45,62 @@ class Account:
             print("[Invalid Account Number]")
     @classmethod
     def from_string(cls,data):
-        name,acc_type,balance=data.split(",")
+        name,acc_type,account_number,balance=data.split(",")
+        account_number=int(account_number)
         balance=float(balance)
-        account_number=cls.total_accounts+1  
         if acc_type=="Savings":
             return SavingAccount(name,account_number,balance)
         elif acc_type=="Checking":
             return CheckingAccount(name,account_number,balance)
+        else:
+            raise ValueError("Type of Account is Missing")
 
 class SavingAccount(Account):
-    pass
+
+    def __init__(self,owner_name,account_number,balance):
+        super().__init__(owner_name,account_number,balance)
+        self.interst_rate=0.02
+        self.min_balance=500
+    def monthly_interst(self):
+        self.balance+=(self.balance*self.interst_rate/12)
+    def withdrawal(self,amount):
+        if amount>0 and  self.balance-amount>=  self.min_balance :
+            self.balance-=amount
+        else:
+            print(f"Balance is lower than minimum Balance {self.min_balance}  ")
+                
+        
 class CheckingAccount(Account):
-    pass            
+    def __init__(self,owner_name,account_number,balance):
+        super().__init__(owner_name,account_number,balance)
+        self.over_draft=200
+        
+    @property
+    def balance(self):
+        return super().balance
+    @balance.setter
+    def balance(self,value):
+        if value >=-self.over_draft:
+            self._Account__balance=value  
+        else:
+            print(" Invalid Value ")
+    def monthly_interst(self):
+        return 0
+    def withdrawal(self, amount):
+        if amount>= 0 and self.balance-amount>=-self.over_draft:
+            self.balance-=amount
+            if self.balance<0:
+                print(f"You have the debt of the {-self.balance}$")
+            
+        else:
+            print("You can't wtihdrawal that amount(OVER-DRAFT limit also crossed) ")  
+
+
+
+acc = CheckingAccount("Ali", 1001, 500)
+acc.withdrawal(650)
+print(acc.balance)
+
 
 
         
@@ -64,7 +108,6 @@ class CheckingAccount(Account):
 
 
                    
-
 
 
 
