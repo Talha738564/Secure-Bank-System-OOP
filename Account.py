@@ -71,9 +71,9 @@ class SavingAccount(Account):
                 
         
 class CheckingAccount(Account):
-    def __init__(self,owner_name,account_number,balance):
+    def __init__(self,owner_name,account_number,balance,over_draft=200):
         super().__init__(owner_name,account_number,balance)
-        self.over_draft=200
+        self.over_draft=over_draft
         
     @property
     def balance(self):
@@ -95,11 +95,27 @@ class CheckingAccount(Account):
         else:
             print("You can't wtihdrawal that amount(OVER-DRAFT limit also crossed) ")  
 
+class RewardMixin:
+    def __init__(self,reward_rate):
+        self.reward_rate=reward_rate
+    cashback_rate=0.01
+    def apply_cashback(self,purchase_amount):
+        self.balance+=purchase_amount*self.cashback_rate
+    def reward_calculation(self,amount):
+        return amount*self.reward_rate        
+
+class PremiumChecking(CheckingAccount,RewardMixin):
+    def __init__(self,owner_name,account_number,balance,over_draft,reward_rate):
+        CheckingAccount.__init__(self,owner_name,account_number,balance,over_draft)
+        RewardMixin.__init__(self,reward_rate)
 
 
-acc = CheckingAccount("Ali", 1001, 500)
-acc.withdrawal(650)
-print(acc.balance)
+
+
+
+
+
+
 
 
 
