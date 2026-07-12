@@ -109,6 +109,27 @@ class PremiumChecking(CheckingAccount,RewardMixin):
         CheckingAccount.__init__(self,owner_name,account_number,balance,over_draft)
         RewardMixin.__init__(self,reward_rate)
 
+class Customer:
+    total_accounts=0
+    def __init__(self,name,customer_id):
+        self.name=name
+        self.customer_id=customer_id
+        self.accounts=[]
+
+    def open_account(self,account):
+        self.accounts.append(account)
+        Customer.total_accounts+=1
+    def total_wealth(self):
+        Total=0
+        Total=sum(account.balance for account in self.accounts)
+        return f"The Total Balance is: {Total}"
+
+
+
+
+
+
+
 
 
 
