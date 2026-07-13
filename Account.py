@@ -146,6 +146,104 @@ class Bank:
 
 
 
+# ============ SETUP ============
+c1 = Customer("Ali", 1)
+c2 = Customer("Sara", 2)
+c3 = Customer("Ahmed", 3)
+acc1 = SavingAccount("Ali", 101, 20000)
+acc2 = CheckingAccount("Sara", 102, 5000)
+acc3 = PremiumChecking("Ahmed", 103, 8000, 500, 0.05)
+c1.open_account(acc1)
+c2.open_account(acc2)
+c3.open_account(acc3)
+b1 = Bank("HBL")
+b1.add_customer(c1)
+b1.add_customer(c2)
+b1.add_customer(c3)
+
+# ============ TEST 1: __str__ ============
+print("--- Account Details ---")
+print(acc1)
+print(acc2)
+print(acc3)
+
+# ============ TEST 2: Deposit ============
+print("\n--- Deposit ---")
+acc1.deposit(5000)
+acc1.deposit(-500)
+acc1.deposit(0)
+print(acc1)
+
+# ============ TEST 3: Withdrawal ============
+print("\n--- Withdrawal ---")
+acc1.withdrawal(1000)
+acc1.withdrawal(30000)
+print(acc1)
+
+# ============ TEST 4: Overdraft ============
+print("\n--- Overdraft ---")
+acc2.withdrawal(5100)
+acc2.withdrawal(500)
+print(acc2)
+
+# ============ TEST 5: Monthly Interest ============
+print("\n--- Before Interest ---")
+print(acc1)
+print(acc2)
+b1.apply_interest()
+print("\n--- After Interest ---")
+print(acc1)
+print(acc2)
+
+# ============ TEST 6: Cashback ============
+print("\n--- Cashback ---")
+print(f"Before cashback: {acc3}")
+acc3.apply_cashback(1000)
+print(f"After cashback: {acc3}")
+
+# ============ TEST 7: find_account ============
+print("\n--- Find Account ---")
+b1.find_account(101)
+b1.find_account(999)
+
+# ============ TEST 8: total_wealth ============
+print("\n--- Total Wealth ---")
+print(c1.total_wealth())
+
+# ============ TEST 9: __eq__ ============
+print("\n--- Equality ---")
+acc4 = SavingAccount("Someone", 101, 999)
+print(acc1 == acc4)
+print(acc1 == acc2)
+
+# ============ TEST 10: __add__ ============
+print("\n--- Combined Balance ---")
+print(acc1 + acc2)
+
+# ============ TEST 11: Sorting ============
+print("\n--- Sorted Accounts ---")
+all_accounts = [acc1, acc2, acc3]
+all_accounts.sort()
+for acc in all_accounts:
+    print(acc)
+
+# ============ TEST 12: from_string ============
+print("\n--- from_string ---")
+acc5 = Account.from_string("Usman,Savings,104,12000")
+print(acc5)
+acc6 = Account.from_string("Zara,Checking,105,3000")
+print(acc6)
+
+# ============ TEST 13: validate_account_number ============
+print("\n--- Validate Account Number ---")
+Account.validate_account_number("1234")
+Account.validate_account_number("123456")
+Account.validate_account_number("12")
+Account.validate_account_number("1234567")
+
+# ============ TEST 14: total_accounts ============
+print("\n--- Total Accounts Created ---")
+print(f"Total accounts created: {Account.total_accounts}")
 
 
 
