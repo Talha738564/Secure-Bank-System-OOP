@@ -7,6 +7,9 @@ class Account:
         self.__balance=balance
         Account.total_accounts+=1
     @property
+    def account_number(self):
+        return self.__account_number        
+    @property
     def balance(self):
         return self.__balance
     @balance.setter
@@ -16,7 +19,7 @@ class Account:
         else:
             print("Negative Balance is not Valid")
     def deposit(self,amount):
-        if amount>=0:
+        if amount>0:
             self.__balance+=amount
         else:
             print("[Please Enter a Valid Amount to Deposit]")
@@ -26,7 +29,7 @@ class Account:
             self.__balance-=amount
         else:
             print("[Please Enter a Valid Amount to Withdrawal]")
-    def monthly_interst(self):
+    def monthly_interest(self):
         pass
     def __str__(self):
         return (f"Account#{self.__account_number} ({self.owner_name}) - Balance: ${self.__balance}")
@@ -59,10 +62,10 @@ class SavingAccount(Account):
 
     def __init__(self,owner_name,account_number,balance):
         super().__init__(owner_name,account_number,balance)
-        self.interst_rate=0.02
+        self.interest_rate=0.02
         self.min_balance=500
-    def monthly_interst(self):
-        self.balance+=(self.balance*self.interst_rate/12)
+    def monthly_interest(self):
+        self.balance+=(self.balance*self.interest_rate/12)
     def withdrawal(self,amount):
         if amount>0 and  self.balance-amount>=  self.min_balance :
             self.balance-=amount
@@ -84,10 +87,10 @@ class CheckingAccount(Account):
             self._Account__balance=value  
         else:
             print(" Invalid Value ")
-    def monthly_interst(self):
+    def monthly_interest(self):
         return 0
     def withdrawal(self, amount):
-        if amount>= 0 and self.balance-amount>=-self.over_draft:
+        if amount> 0 and self.balance-amount>=-self.over_draft:
             self.balance-=amount
             if self.balance<0:
                 print(f"You have the debt of the {-self.balance}$")
@@ -123,6 +126,31 @@ class Customer:
         Total=0
         Total=sum(account.balance for account in self.accounts)
         return f"The Total Balance is: {Total}"
+    
+class Bank:
+    def __init__(self,name):
+        self.name=name
+        self.customers=[]
+    def add_customer(self,customer):
+        self.customers.append(customer)      
+    def find_account(self,account_Number):
+        for customer in self.customers:
+            for account in customer.accounts:
+                if account.account_number==account_Number:
+                    print(account)
+    def apply_interest(self):
+         for customer in self.customers:
+            for account in customer.accounts:
+                account.monthly_interest()
+
+
+
+
+
+
+
+
+
 
 
 
